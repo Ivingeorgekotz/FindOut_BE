@@ -1,0 +1,92 @@
+# Python-related files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Virtual environments
+env/
+venv/
+ENV/
+*.venv
+*.env
+
+# Operating system files (Windows-specific)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Secrets and environment files
+*.env
+.env.*
+secrets.json
+
+# Media files (user uploads)
+media/
+
+# Static files (Django collectstatic)
+static/
+staticfiles/
+
+# Django migration files
+**/migrations/*
+!**/migrations/__init__.py
+
+# Logs and temporary files
+*.log
+*.bak
+*.swp
+*.tmp
+*.temp
+*.pid
+*.seed
+*.swo
+*.retry
+*.gz
+*.zip
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Node.js dependencies (if applicable)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Coverage and testing
+htmlcov/
+.tox/
+.coverage
+*.cover
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Build and distribution files
+*.egg-info/
+dist/
+build/
+
+# Docker
+*.docker
+*.dockerignore
+Dockerfile
+docker-compose.yml
+.env.docker
+
+# Windows-specific metadata
+$Recycle.Bin/
+Thumbs.db
+Desktop.ini
+
+# Ansible
+*.retry
