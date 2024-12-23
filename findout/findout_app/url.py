@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import CustomerSignupView, DealerSignupView,login_view,PasswordChangeView,UserListView, CreateOrderAPIView
-from .views import hello_world,ProfileView,refresh_access_token_view, razorpay_webhook, verify_payment, SendWhatsAppMessageView
+from .views import hello_world,ProfileView,refresh_access_token_view, razorpay_webhook, verify_payment
 from . import views
 
 
@@ -32,7 +32,7 @@ urlpatterns = [
     path('unique-categories/', views.unique_categories, name='unique_categories'),
     path('vehicles/<str:category>/', views.vehicles_by_category, name='vehicles_by_category'),
     # path('send-whatsapp/', SendWhatsAppMessageView.as_view(), name='send-whatsapp'),
-    path('send-whatsapp/', SendWhatsAppMessageView.as_view(), name='send-whatsapp'),
+    # path('send-whatsapp/', SendWhatsAppMessageView.as_view(), name='send-whatsapp'),
 
     # New path for admin to view a user's vehicles
     # New path for individual vehicles

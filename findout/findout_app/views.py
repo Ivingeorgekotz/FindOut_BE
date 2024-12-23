@@ -25,6 +25,9 @@ from rest_framework import status
 import razorpay
 from django.conf import settings
 from drf_yasg import openapi
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import EmailMultiAlternatives
 
 
 logger = logging.getLogger(__name__)
@@ -463,8 +466,72 @@ class ScheduleCreateView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        # Set the current authenticated user as the owner of the schedule
-        serializer.save(user=self.request.user)
+        # Save the schedule
+        schedule = serializer.save(user=self.request.user)
+
+        # Customer details
+        customer_email = self.request.user.email
+        customer_name = self.request.user.first_name  # Assuming first_name field exists
+        customer_phone = self.request.user.phone_number  # Assuming phone_number field exists
+
+        # Vehicle details
+        vehicle_id = self.request.data.get('vehicle')
+        try:
+            vehicle = Vehicle.objects.get(id=vehicle_id)
+            dealer_email = vehicle.user.email  # Dealer's email from the vehicle's user
+            dealer_name = vehicle.user.first_name  # Assuming first_name field exists
+            vehicle_name = f"{vehicle.category} - {vehicle.type_of_vehicle}"  # Adjust as needed
+        except Vehicle.DoesNotExist:
+            dealer_email = None
+            vehicle_name = "Unknown Vehicle"
+
+        # Dates
+        start_date = serializer.validated_data.get('start_date')
+        end_date = serializer.validated_data.get('end_date')
+
+        # Send email to customer
+        self.send_email(
+            template_name='emails/customer_email.html',
+            subject=f"Booking Confirmation for {vehicle_name}",
+            recipient_email=customer_email,
+            context={
+                'customer_name': customer_name,
+                'vehicle_name': vehicle_name,
+                'start_date': start_date,
+                'end_date': end_date,
+                'dealer_name': dealer_name,
+            }
+        )
+
+        # Send email to dealer
+        if dealer_email:
+            self.send_email(
+                template_name='emails/dealer_email.html',
+                subject=f"New Booking Enquiry for {vehicle_name}",
+                recipient_email=dealer_email,
+                context={
+                    'dealer_name': dealer_name,
+                    'vehicle_name': vehicle_name,
+                    'start_date': start_date,
+                    'end_date': end_date,
+                    'customer_email': customer_email,
+                    'customer_phone': customer_phone,
+                }
+            )
+    def send_email(self, template_name, subject, recipient_email, context):
+        # Render HTML and plain text content
+        html_content = render_to_string(template_name, context)
+        text_content = strip_tags(html_content)  # Strip HTML tags for plain text
+
+        # Create and send email
+        email = EmailMultiAlternatives(
+            subject=subject,
+            body=text_content,  # Plain text content
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=[recipient_email]  # Recipient email
+        )
+        email.attach_alternative(html_content, "text/html")  # Attach HTML version
+        email.send()
 
 class DealerVehicleBookingsView(generics.ListAPIView):
     serializer_class = ScheduleSerializer

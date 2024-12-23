@@ -178,7 +178,7 @@ SWAGGER_SETTINGS = {
     }
 }
 
-
+SERVER_HOST=''
 # email setup
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
@@ -193,5 +193,12 @@ RAZORPAY_KEY_ID='rzp_test_sFARAlYta2Q8us'
 RAZORPAY_KEY_SECRET='0e32AnXwPsXYrUjZVNv54O3z'
 # RAZORPAY_KEY_ID=env('RAZORPAY_KEY_ID')
 # RAZORPAY_KEY_SECRET=env('RAZORPAY_KEY_SECRET')
+# Celery settings
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'  # Use Redis as the broker
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+
+# Results backend
+# CELERY_RESULT_BACKEND = 'django-db'
 
 # TWILIO

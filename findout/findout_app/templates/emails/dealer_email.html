@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Booking Alert</title>
+</head>
+<body>
+    <h1>Hello {{ dealer_name }},</h1>
+    <p>You have received a new booking enquiry for the vehicle <strong>{{ vehicle_name }}</strong>.</p>
+    <p>Booking details are as follows:</p>
+    <ul>
+        <li><strong>Start Date:</strong> {{ start_date }}</li>
+        <li><strong>End Date:</strong> {{ end_date }}</li>
+    </ul>
+    <p>The customer details are:</p>
+    <ul>
+        <li><strong>Email:</strong> {{ customer_email }}</li>
+        <li><strong>Phone Number:</strong> {{ customer_phone }}</li>
+    </ul>
+    <p>Please contact the customer to proceed with the booking.</p>
+    <p>Best regards,</p>
+    <p>FindOut</p>
+</body>
+</html>
+

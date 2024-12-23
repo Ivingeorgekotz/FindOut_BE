@@ -81,14 +81,14 @@ class Schedule(models.Model):
         if self.start_date > self.end_date:
             raise ValidationError('End date must be after or equal to start date.')
 
-        overlapping_schedule = Schedule.objects.filter(
-            vehicle=self.vehicle,
-            start_date__lte=self.end_date,
-            end_date__gte=self.start_date
-        ).exclude(id=self.id)
-
-        if overlapping_schedule.exists():
-            raise ValidationError('This vehicle is already scheduled for this date range.')
+        # overlapping_schedule = Schedule.objects.filter(
+        #     vehicle=self.vehicle,
+        #     start_date__lte=self.end_date,
+        #     end_date__gte=self.start_date
+        # ).exclude(id=self.id)
+        #
+        # if overlapping_schedule.exists():
+        #     raise ValidationError('This vehicle is already scheduled for this date range.')
 
     def save(self, *args, **kwargs):
         self.clean()
